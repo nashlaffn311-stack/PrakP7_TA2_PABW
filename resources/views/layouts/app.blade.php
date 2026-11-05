@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'transLive') }}</title>
-    
-    <!-- Panggil CSS Bootstrap / Asset Custom Proyek transLive Kamu -->
+    <title>@yield('title', config('app.name', 'transLive'))</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- CSFR Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -18,7 +19,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{{ url('/') }}">transLive</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Buka navigasi">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
@@ -26,10 +27,16 @@
                 <ul class="navbar-nav ms-auto">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active fw-bold' : '' }}" href="{{ route('dashboard') }}">Beranda</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('rute.index') }}">Kelola Rute</a>
+                            <a class="nav-link {{ request()->routeIs('rute.*') ? 'active fw-bold' : '' }}" href="{{ route('rute.index') }}">Daftar Rute</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('tracking') ? 'active fw-bold' : '' }}" href="{{ route('tracking') }}">Live Tracking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('tiket') ? 'active fw-bold' : '' }}" href="{{ route('tiket') }}">Tiket Saya</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
@@ -63,7 +70,5 @@
     <main class="container py-4">
         @yield('content')
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

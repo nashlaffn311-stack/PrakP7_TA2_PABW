@@ -10,16 +10,16 @@ return new class extends Migration
     {
         Schema::create('rute', function (Blueprint $table) {
             $table->id();
-            $table->string('kode')->unique();
-            $table->foreignId('kategori_angkutan_id')->constrained('kategori_angkutan')->onDelete('cascade');
+            $table->string('kode');
+            $table->foreignId('kategori_angkutan_id')->constrained('kategori_angkutan');
             $table->string('asal');
             $table->string('tujuan');
             $table->string('jam');
             $table->integer('tarif');
-            $table->string('status')->default('Tersedia');
+            $table->string('status');
             $table->timestamps();
-            });
-        }
+        });
+    }
 
     public function down(): void
     {
